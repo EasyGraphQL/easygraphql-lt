@@ -1,0 +1,37 @@
+{
+  "name": "easygraphql-lt",
+  "version": "1.0.0",
+  "description": "Do load testing to a GraphQL server without writing a single query",
+  "bin": {
+    "easygraphql-lt": "./bin/easygraphql-lt.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "graphql",
+    "testing",
+    "load-testing"
+  ],
+  "homepage": "https://github.com/EasyGraphQL/easygraphql-lt",
+  "author": {
+    "name": "EasyGraphQL",
+    "url": "https://github.com/EasyGraphQL"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EasyGraphQL/easygraphql-lt"
+  },
+  "bugs": {
+    "url": "https://github.com/EasyGraphQL/easygraphql-lt"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "artillery": "^1.6.0-27",
+    "easygraphql-load-tester": "^0.3.3",
+    "fs-extra": "^7.0.1",
+    "inquirer": "^6.2.2",
+    "minimist": "^1.2.0",
+    "ora": "^3.2.0"
+  }
+}

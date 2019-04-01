@@ -1,0 +1,17 @@
+config:
+  target: "http://localhost:8000/"
+  phases:
+    - duration: 5
+      arrivalRate: 10
+  processor: "./queryGenerator.js"
+scenarios:
+  - name: "GraphQL Query load test"
+    flow:
+      - function: "testCases"
+      - loop:
+          - post:
+              url: "/"
+              json:
+                query: "{{ $loopElement.query }}"
+          - log: "Sent a request to the {{ $loopElement.operation }}: {{ $loopElement.name }}"
+        over: cases
