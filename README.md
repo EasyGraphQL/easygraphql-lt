@@ -13,8 +13,15 @@ It uses [Artillery.io](https://artillery.io/) under the hood.
 
 ## How to run it:
 
+If you want do download the latest version of the GraphQL schema, run this command with out flag
 ```shell
 $ npx easygraphql-lt <CONFIG_FILE>.json
+```
+
+Also, if you have a local copy of the schema to test, you can set the flag `--localSchema`
+and it'll display a list of files that might be the schema on the selected folder.
+```shell
+$ npx easygraphql-lt <CONFIG_FILE>.json --localSchema
 ```
 
 ## How to use it:
@@ -88,6 +95,15 @@ at the end of the test the terminal is going to display a message explaining how
 "withOutput": true/false
 ```
 
+#### Headers (Optional)
+Set additional HTTP attributes on the headers like `Authorization`or `Cookie`, etc...
+```JSON
+"headers": {
+  "Authorization": "<TOKEN>",
+  "Cookie": "name=value; name2=value2;"
+}
+```
+
 #### args
 
 Here you should set all the arguments that might be used on the load testing, and also if 
@@ -106,7 +122,11 @@ Here you should set all the arguments that might be used on the load testing, an
     "withMutations": true,
     "duration": 5,
     "arrivalRate": 10,
-    "withOutput": true
+    "withOutput": true,
+    "headers": {
+      "Authorization": "<TOKEN>",
+      "Cookie": "name=value; name2=value2;"
+    }
   },
   "args": {
     "getFamilyInfoByIsLocal": {
