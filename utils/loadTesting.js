@@ -6,7 +6,7 @@ const { spawn, exec } = require('child_process')
 const moment = require('moment')
 const ora = require('ora')
 
-const startLoadTesting = (configFile) => {
+const startLoadTesting = (configFile, localSchema) => {
   const { config: { url, name } } = require(configFile)
 
   const schemaPath = artilleryConfigPath('schema.gql')
@@ -14,14 +14,24 @@ const startLoadTesting = (configFile) => {
   const testName = name ? name : url
   const spinner = ora(`Preparing load testing for: ${testName}`).start()
 
-  // Download a copy of the schema to be tested.
-  exec(`npx get-graphql-schema ${url} > ${schemaPath}`, (err) => {
-    if (err) {
-      console.log('Error:', err.message)
-    }
+  if (localSchema) {
+    fs.copyFile(localSchema, schemaPath, err => {
+      startLoadTestingCallBack(err, configFile, spinner)
+    })
+  } else {
+    // Download a copy of the schema to be tested.
+    exec(`npx get-graphql-schema ${url} > ${schemaPath}`, (err) => {
+      startLoadTestingCallBack(err, configFile, spinner)
+    })
+  }
+}
 
-    runLoadTesting(configFile, spinner)
-  })
+const startLoadTestingCallBack = (err, configFile, spinner) => {
+  if (err) {
+    console.log('Error:', err.message)
+  }
+
+  runLoadTesting(configFile, spinner)
 }
 
 const runLoadTesting = (configFile, spinner) => {
@@ -40,7 +50,7 @@ const runLoadTesting = (configFile, spinner) => {
     }
 
     spinner.stop()
-    const { config: { url, duration = 5, arrivalRate = 10, withOutput, queryFilePath } } = require(newConfigFile)
+    const { config: { url, duration = 5, arrivalRate = 10, withOutput, queryFilePath, headers } } = require(newConfigFile)
     let reportPath
 
     const artilleryBin = path.join(__dirname, '..', 'node_modules/.bin/artillery')
@@ -48,10 +58,22 @@ const runLoadTesting = (configFile, spinner) => {
       'run',
       '--target',
       `${url}`,
-      '--overrides',
-      `'{"config": {"phases": [{"duration": ${duration}, "arrivalRate": ${arrivalRate}}]}}'`,
       'artillery.yml'
     ]
+
+    const configOverride = {
+      config: {
+        phases: [{duration, arrivalRate }]
+      }
+    }
+    
+    if (headers) {
+      configOverride['config']['defaults'] = {
+        headers
+      }    
+    }
+
+    options = options.concat(['--overrides', `'${JSON.stringify(configOverride)}'`])
 
     if (withOutput) {
       const date = moment().format('YYYYMMDDHHMMSS').toString()
