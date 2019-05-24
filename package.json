@@ -28,7 +28,7 @@
   "license": "MIT",
   "dependencies": {
     "artillery": "^1.6.0-27",
-    "easygraphql-load-tester": "^0.3.3",
+    "easygraphql-load-tester": "^0.3.5",
     "fs-extra": "^7.0.1",
     "inquirer": "^6.2.2",
     "minimist": "^1.2.0",
