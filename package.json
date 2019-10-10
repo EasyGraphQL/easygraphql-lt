@@ -30,6 +30,7 @@
     "artillery": "^1.6.0-27",
     "easygraphql-load-tester": "^0.3.5",
     "fs-extra": "^7.0.1",
+    "graphql": "^14.5.8",
     "inquirer": "^6.2.2",
     "minimist": "^1.2.0",
     "ora": "^3.2.0"
