@@ -1,6 +1,6 @@
 {
   "name": "easygraphql-lt",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Do load testing to a GraphQL server without writing a single query",
   "bin": {
     "easygraphql-lt": "./bin/easygraphql-lt.js"
